@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Checkbox, CheckboxGroup } from 'react-checkbox-group';
-var randomID = require('random-id');
 
 class ModalPopup extends Component {
 
@@ -20,7 +19,6 @@ class ModalPopup extends Component {
     onChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value,
-            id: randomID(5, "aA0")
         })
     }
 
@@ -40,11 +38,40 @@ class ModalPopup extends Component {
     onSubmit = (event) => {
         event.preventDefault(); //Không request ra khỏi trang
         this.props.addNewTask(this.state)
+        this.props.onEditTask(this.state)
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if(nextProps && nextProps.isAddNewTask){
+            this.clearForm();
+        }
+        if(nextProps && nextProps.taskEditing && !nextProps.isAddNewTask){
+            this.setState({
+                id: nextProps.taskEditing.id,
+                name: nextProps.taskEditing.name,
+                description: nextProps.taskEditing.description,
+                priority: nextProps.taskEditing.priority,
+                memIDArr: nextProps.taskEditing.memIDArr,
+                labelArr: nextProps.taskEditing.labelArr
+            })
+        }
+    }
+
+    clearForm = () => {
+        this.setState({
+            id: '',
+            name: '',
+            description: '',
+            priority: '',
+            memIDArr: [],
+            labelArr: []
+        })
     }
 
     render() {
-
-        // console.log(this.state);
+        let { isAddNewTask } = this.props;
+        let { name,priority,description,memIDArr,labelArr } = this.state;
+        // console.log(isAddNewTask);
 
         return (
             <div className="modal fade" id="modalTask">
@@ -52,7 +79,9 @@ class ModalPopup extends Component {
                     <div className="modal-content">
                         {/* Modal Header */}
                         <div className="modal-header">
-                            <h4 className="modal-title">ADD NEW TASK</h4>
+                            <h4 className="modal-title">
+                            { isAddNewTask ? "NEW TASK" : "EDIT TASK" }
+                            </h4>
                             <button type="button" className="close" data-dismiss="modal">×</button>
                         </div>
 
@@ -66,6 +95,7 @@ class ModalPopup extends Component {
                                         name="name"
                                         onChange={this.onChange}
                                         placeholder="Task name"
+                                        value={name}
                                         required
                                     />
                                 </div>
@@ -77,6 +107,7 @@ class ModalPopup extends Component {
                                         name="description"
                                         onChange={this.onChange}
                                         placeholder="Description"
+                                        value={description}
                                         required
                                     />
                                 </div>
@@ -86,11 +117,11 @@ class ModalPopup extends Component {
                                         className="form-control"
                                         name="priority"
                                         onChange={this.onChange}
+                                        value={priority}
                                     >
-                                        <option value={-1}>--Select--</option>
-                                        <option value={3}>LOW</option>
-                                        <option value={3}>MIDLE</option>
-                                        <option value={3}>HIGHT</option>
+                                        <option value={3} selected>LOW</option>
+                                        <option value={2}>MIDLE</option>
+                                        <option value={1}>HIGHT</option>
                                     </select>
                                 </div>
 
@@ -98,17 +129,16 @@ class ModalPopup extends Component {
                                 <br />
                                 <CheckboxGroup
                                     name="memIDArr"
-                                    value={this.state.memIDArr}
+                                    value={memIDArr}
                                     onChange={this.memberChanged}
                                     checkboxDepth={2}
                                 >
                                     <label><Checkbox value="user_0" /> Alan</label>
-                                    <label><Checkbox value="user_1" /> Grace</label>
-                                    <label><Checkbox value="user_2" /> Junny</label>
-                                    <label><Checkbox value="user_3" /> Jennie</label>
-                                    <label><Checkbox value="user_4" /> Kay</label>
-                                    <label><Checkbox value="user_5" /> Bin</label>
-                                    <label><Checkbox value="user_6" /> Tina</label>
+                                    <label><Checkbox value="user_1" /> Bin</label>
+                                    <label><Checkbox value="user_2" /> Grace</label>
+                                    <label><Checkbox value="user_3" /> Junny</label>
+                                    <label><Checkbox value="user_4" /> Jennie</label>
+                                    <label><Checkbox value="user_5" /> Horward</label>
                                 </CheckboxGroup>
                                 <br />
 
@@ -116,7 +146,7 @@ class ModalPopup extends Component {
                                 <br />
                                 <CheckboxGroup
                                     name="labelArr"
-                                    value={this.state.labelArr}
+                                    value={labelArr}
                                     onChange={this.labelChanged}
                                     checkboxDepth={2}
                                 >
@@ -133,14 +163,14 @@ class ModalPopup extends Component {
                                     type="submit"
                                     className="btn btn-success"
                                 >
-                                    SAVE
-                            </button>
+                                    { isAddNewTask ? "SAVE" : "EDIT" }
+                                </button>
                                 <button
                                     type="button"
                                     className="btn btn-danger"
                                     data-dismiss="modal">
                                     CLOSE
-                            </button>
+                                </button>
                             </div>
                         </form>
 

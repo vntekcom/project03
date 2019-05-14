@@ -1,45 +1,32 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
-
-const optionsStatus = [
-    { value: 0, label: 'Doing...' },
-    { value: 1, label: 'Holding' },
-    { value: 2, label: 'Complete' },
-    { value: 3, label: 'Cancel' }
-];
 
 class Item extends Component {
-    
-    ////CONSTRUCTOR
+
     constructor(props) {
         super(props);
         this.state = {
-            selectedOptionStatus: this.props.status,
+            selectedProgress: ''
         };
     }
 
-    ////FUNCTION
-    handleChange = (selectedOptionStatus) => {
+    onChangeProgress = (event) => {
         this.setState({
-            selectedOptionStatus: selectedOptionStatus.value,
-        });
+            [event.target.name]: event.target.value
+        }, () => {
+            this.props.changedProgress(this.props.item.id, this.state.selectedProgress)
+        })
     }
 
-    handleEditTask = () => {
-        this.props.editTask(this.props.item)
-    }
-
-    //Hàm get màu label dựa trên label name
     getLabelColor = (label) => {
         let labelColor; //khởi tạo biến labelColor để hứng kết quả return về từ func
         switch (label) {
-            case 0:
+            case "0":
                 return labelColor = '#389E0D';
-            case 1:
+            case "1":
                 return labelColor = '#722ED1';
-            case 2:
+            case "2":
                 return labelColor = '#13C2C2';
-            case 3:
+            case "3":
                 return labelColor = '#CF1322';
             default:
                 labelColor = '';
@@ -48,21 +35,41 @@ class Item extends Component {
         return labelColor;
     }
 
-    ////RENDER
+    getStatusIcon = (status) => {
+        let elmStatus; //khởi tạo biến labelColor để hứng kết quả return về từ func
+        switch (status) {
+            case 0:
+                return elmStatus = "fa fa-spinner"
+            case 1:
+                return elmStatus = "fa fa-pause"
+            case 2:
+                return elmStatus = "fa fa-check-square-o"
+            case 3:
+                return elmStatus = "fa fa-trash-o"
+            default:
+                elmStatus = "fa fa-spinner"
+                break;
+        }
+        return elmStatus;
+    }
+
+    handleEditTask = () => {
+        this.props.editTask(this.props.item)
+    }
+
     render() {
         let { index, item } = this.props;
-        let { selectedOptionStatus } = this.state;
 
-        //Label
+        //DEPARTMENT
         let elmLabel = item.labelArr.map((e, i) => {
             return <i
                 key={i}
                 className="fa fa-circle"
-                style={{ color: this.getLabelColor(i) }} //style là 1 mảng nhiều obj
+                style={{ color: this.getLabelColor(e) }} //style là 1 mảng nhiều obj
             />
         });
 
-        //Member element
+        //MEMBER
         let elmMember = item.memIDArr.map((e, i) => {
             return <img
                 src={'./img/' + e + '.jpg'}
@@ -71,7 +78,7 @@ class Item extends Component {
             />
         });
 
-        //Get Element độ ưu tiên công việc
+        //PRIORITY
         let elmPriority;
         let classPriority;
         switch (parseInt(item.priority, 10)) {
@@ -93,37 +100,12 @@ class Item extends Component {
                 break;
         }
 
-        // //get element status
-        let elmStatus;
-        let StatusLabel;
-        switch (parseInt(this.state.selectedOptionStatus, 10)) {
-            case null:
-                elmStatus = "fa fa-spinner"
-                StatusLabel="Doing..."
-                break;
-            case 1:
-                elmStatus = "fa fa-pause"
-                StatusLabel="Holding"
-                break;
-            case 2:
-                elmStatus = "fa fa-check-square-o"
-                StatusLabel="Complete"
-                break;
-            case 3:
-                elmStatus = "fa fa-trash-o"
-                StatusLabel="Cancel"
-                break;
-            default:
-                elmStatus = "fa fa-spinner"
-                StatusLabel="Doing..."
-                break;
-        }
-
         return (
             <tr>
                 <td className="text-center"> {index + 1} </td>
                 <td className="text-left"> {item.name} </td>
                 <td className="text-center">
+                    {/* Department */}
                     {elmLabel}
                 </td>
                 <td className={`${classPriority}  font-weight-bold text-center`}>
@@ -133,24 +115,31 @@ class Item extends Component {
                     {elmMember}
                 </td>
                 <td className="text-left">
-                    <button 
-                    type="button" 
-                    className="btn btn-outline-danger"
-                    onClick={this.handleEditTask}
+                    <button
+                        type="button"
+                        className="btn btn-outline-danger"
+                        data-toggle="modal"
+                        data-target="#modalTask"
+                        onClick={this.handleEditTask}
                     >
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Edit
-                    </button>
+                            </button>
                 </td>
                 <td>
-                    <Select
-                        value={selectedOptionStatus}
-                        onChange={this.handleChange}
-                        options={optionsStatus}
-                        placeholder={StatusLabel}
-                    />
+                    <select
+                        className="form-control"
+                        name="selectedProgress"
+                        onChange={this.onChangeProgress}
+                    >
+                        <option value={-1} selected disabled hidden>===></option>
+                        <option value={0}>Doing...</option>
+                        <option value={1}>Holding</option>
+                        <option value={2}>Complete</option>
+                        <option value={3}>Cancel</option>
+                    </select>
                 </td>
                 <td className="text-center">
-                    <i className={`fa ${elmStatus} mr-2`} />
+                    <i className={`fa ${this.getStatusIcon(item.status)} mr-2`} />
                 </td>
             </tr>
         );

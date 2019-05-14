@@ -2,20 +2,21 @@ const  randomID = require("random-id");
 
 // Priority -->1: Cao, 2: Thấp, 3: Trung bình
 //label --> 0:sale, 1:Mart, 2.Admin, 3.CS
+//Progress --> 0:doing, 1. Holding 2.Complete 3.Cancel
 const TasksData = [
     {
         id: randomID(5, "aA0"),
         name: "Soạn ReactJS",
-        labelArr: [0,2],
+        labelArr: ["0","2"],
         priority: 1, 
         memberIDArr: ["user_1","user_2"],
-        status: 2, 
+        status: 2, //Int
         description: "Phải soạn ReactJS kèm với NodeJS và Redux"
     },
     {
         id: randomID(5, "aA0"),
         name: "Dạy AngularJS",
-        labelArr: [0,1],
+        labelArr: ["0","1"],
         priority: 2, 
         memberIDArr: ["user_4", "user_5"],
         status: 1,
@@ -24,7 +25,7 @@ const TasksData = [
     {
         id: randomID(5, "aA0"),
         name: "Soạn Python",
-        labelArr: [0,3],
+        labelArr: ["0","3"],
         priority: 2, 
         memberIDArr: ["user_3", "user_5"],
         status: 1,
@@ -33,7 +34,7 @@ const TasksData = [
     {
         id: randomID(5, "aA0"),
         name: "Thi Hackathon",
-        labelArr: [0,1,2],
+        labelArr: ["0","1","2"],
         priority: 3, 
         memberIDArr: ["user_2", "user_3", "user_4", "user_5"],
         status: 3,

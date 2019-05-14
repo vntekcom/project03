@@ -13,17 +13,23 @@ class Controls extends Component {
 
                 <div className="header header--left d-flex align-items-center">
                     <img src="./img/user_1.jpg" className="ml-2 user" alt="task manager" />
-                    <h3 className="text-white d-inline font-weight-light ml-2">Alan NG</h3>
+                    <h3 className="text-white d-inline font-weight-light ml-2">
+                        Alan NG
+                    </h3>
                 </div>
 
                 {/* Add New Task button */}
-                <AddNewTask />
+                <AddNewTask
+                    clearForAddNewTask={this.props.clearForAddNewTask}
+                />
 
                 {/* Filter */}
                 <div className="px-3">
 
                     {/* Filter by Progress */}
-                    <FilterProgress />
+                    <FilterProgress 
+                         changeFilterProgress={this.props.changeFilterProgress}
+                    />
 
                     {/* Filter by Label */}
                     <FilterLabel />
@@ -35,7 +41,7 @@ class Controls extends Component {
                     <Sort />
 
                     {/* Load data form LoadLocalStorage */}
-                    <LoadLocalStorage 
+                    <LoadLocalStorage
                         generateData={this.props.generateData}
                     />
 

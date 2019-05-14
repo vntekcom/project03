@@ -13,8 +13,8 @@ class TaskItem extends Component {
                     key={index}
                     item={item}
                     index={index}
-                    status={item.status}
                     editTask={this.props.editTask}
+                    changedProgress={this.props.changedProgress}
                 />
             })
         }
