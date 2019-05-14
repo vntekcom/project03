@@ -25,6 +25,10 @@ class Item extends Component {
         });
     }
 
+    handleEditTask = () => {
+        this.props.editTask(this.props.item)
+    }
+
     //Hàm get màu label dựa trên label name
     getLabelColor = (label) => {
         let labelColor; //khởi tạo biến labelColor để hứng kết quả return về từ func
@@ -54,7 +58,7 @@ class Item extends Component {
             return <i
                 key={i}
                 className="fa fa-circle"
-                style={{ color: this.getLabelColor(e) }} //style là 1 mảng nhiều obj
+                style={{ color: this.getLabelColor(i) }} //style là 1 mảng nhiều obj
             />
         });
 
@@ -129,7 +133,11 @@ class Item extends Component {
                     {elmMember}
                 </td>
                 <td className="text-left">
-                    <button type="button" className="btn btn-outline-danger">
+                    <button 
+                    type="button" 
+                    className="btn btn-outline-danger"
+                    onClick={this.handleEditTask}
+                    >
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Edit
                     </button>
                 </td>

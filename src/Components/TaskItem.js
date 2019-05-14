@@ -4,15 +4,20 @@ import Item from './TaskItems/Item';
 
 class TaskItem extends Component {
 
-    render(){
-        let elmItem = this.props.tasks.map((item,index)=>{
-            return <Item
+    render() {
+
+        let elmItem = '';
+        if (this.props.tasks) { //kiểm tra sự tồn tại của mảng có hay không
+            elmItem = this.props.tasks.map((item, index) => {
+                return <Item
                     key={index}
-                    item={item} 
+                    item={item}
                     index={index}
                     status={item.status}
-                    />
-        })
+                    editTask={this.props.editTask}
+                />
+            })
+        }
 
         return (
             <div className="col-md-9 px-0">

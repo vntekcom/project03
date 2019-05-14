@@ -23,6 +23,19 @@ class App extends Component {
     localStorage.setItem('tasks', JSON.stringify(listOfTasks.list));
   }
 
+  addNewTask = (task) => {
+    let tasksJSON = JSON.parse(localStorage.getItem('tasks'));
+    tasksJSON = [...tasksJSON, task]
+    localStorage.setItem('tasks', JSON.stringify(tasksJSON));
+    this.setState({
+      tasks: tasksJSON
+    })
+  }
+
+  editTask = (data) => {
+    console.log(data)
+  }
+
   ////KHỞI TẠO KHI COMPONENT VỪA TẠO
   componentWillMount = () => {
     let tasksJSON = JSON.parse(localStorage.getItem('tasks'));
@@ -32,6 +45,8 @@ class App extends Component {
   }
 
   render() {
+
+
     let { tasks } = this.state;
     return (
       <div className="App">
@@ -45,12 +60,15 @@ class App extends Component {
               {/* DISPLAY */}
               <TaskItem 
                 tasks={ tasks }
+                editTask={this.editTask}
               />
             </div>
           </div>
           
           {/* The Modal */ }
-          <ModalPopup />
+          <ModalPopup 
+            addNewTask={this.addNewTask}
+          />
         </div>
       </div>
     );

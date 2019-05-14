@@ -14,7 +14,6 @@ class LoadLocalStorage extends Component {
                 className="btn btn--loadStorage"
                 onClick={this.LoadLocalStorage}
                 >
-                    <i className="fa fa-floppy-o" />
                     Load Storage Data
                 </button>
             </div>
