@@ -72,6 +72,7 @@ class Item extends Component {
         //MEMBER
         let elmMember = item.memIDArr.map((e, i) => {
             return <img
+                key={i}
                 src={'./img/' + e + '.jpg'}
                 className="user"
                 alt="task manager"
@@ -81,22 +82,27 @@ class Item extends Component {
         //PRIORITY
         let elmPriority;
         let classPriority;
+        let iconPriority;
         switch (parseInt(item.priority, 10)) {
             case 1:
-                elmPriority = "Low"
-                classPriority = "text-primary"
+                elmPriority = "Hight"
+                classPriority = "text-danger"
+                iconPriority="fa fa-battery-half"
                 break;
             case 2:
                 elmPriority = "Medium"
                 classPriority = "text-warning"
+                iconPriority="fa fa-battery-three-quarters"
                 break;
             case 3:
-                elmPriority = "Hight"
-                classPriority = "text-danger"
+                elmPriority = "Low"
+                classPriority = "text-success"
+                iconPriority="fa fa-battery-full"
                 break;
             default:
                 elmPriority = "N/A"
                 classPriority = "text-success"
+                iconPriority="fa fa-battery-half"
                 break;
         }
 
@@ -108,8 +114,8 @@ class Item extends Component {
                     {/* Department */}
                     {elmLabel}
                 </td>
-                <td className={`${classPriority}  font-weight-bold text-center`}>
-                    {elmPriority}
+                <td className={`${classPriority}  font-weight-bold text-left`}>
+                    <i className={iconPriority} aria-hidden="true"></i> {elmPriority} 
                 </td>
                 <td className="text-center">
                     {elmMember}
@@ -122,7 +128,7 @@ class Item extends Component {
                         data-target="#modalTask"
                         onClick={this.handleEditTask}
                     >
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Edit
+                        <i className="fa fa-pencil-square-o" aria-hidden="true"></i>  Edit
                             </button>
                 </td>
                 <td>
@@ -131,7 +137,7 @@ class Item extends Component {
                         name="selectedProgress"
                         onChange={this.onChangeProgress}
                     >
-                        <option value={-1} selected disabled hidden>===></option>
+                        <option defaultValue={-1} selected disabled hidden>===></option>
                         <option value={0}>Doing...</option>
                         <option value={1}>Holding</option>
                         <option value={2}>Complete</option>

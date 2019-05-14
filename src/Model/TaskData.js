@@ -1,6 +1,6 @@
 const  randomID = require("random-id");
 
-// Priority -->1: Cao, 2: Thấp, 3: Trung bình
+// Priority -->1: Cao, 2: Trung bình, 3: Trung bình
 //label --> 0:sale, 1:Mart, 2.Admin, 3.CS
 //Progress --> 0:doing, 1. Holding 2.Complete 3.Cancel
 const TasksData = [
@@ -8,7 +8,7 @@ const TasksData = [
         id: randomID(5, "aA0"),
         name: "Soạn ReactJS",
         labelArr: ["0","2"],
-        priority: 1, 
+        priority: 1, //Int
         memberIDArr: ["user_1","user_2"],
         status: 2, //Int
         description: "Phải soạn ReactJS kèm với NodeJS và Redux"

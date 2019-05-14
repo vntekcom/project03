@@ -32,10 +32,14 @@ class Controls extends Component {
                     />
 
                     {/* Filter by Label */}
-                    <FilterLabel />
+                    <FilterLabel
+                        changeFilterLabel={this.props.changeFilterLabel}
+                    />
 
                     {/* Filter by Priority */}
-                    <FilterPriority />
+                    <FilterPriority 
+                        changeFilterPriority={this.props.changeFilterPriority}
+                    />
 
                     {/* Sort */}
                     <Sort />

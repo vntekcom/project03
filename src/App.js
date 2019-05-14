@@ -23,6 +23,7 @@ class App extends Component {
       //FILTER
       filterType: '',
       filterProgress: -1,
+      filterSearch: '',
     }
   }
 
@@ -40,6 +41,8 @@ class App extends Component {
     if(this.state.isAddNewTask){
       let tasksJSON = JSON.parse(localStorage.getItem('tasks'))
       data.id = randomID(5, "aA0") 
+      data.status = 0
+      data.priority = parseInt(data.priority)
       tasksJSON = [...tasksJSON, data] 
       localStorage.setItem('tasks', JSON.stringify(tasksJSON))
       this.setState({
@@ -69,10 +72,31 @@ class App extends Component {
   }
 
   changeFilterProgress = (filterProgress) => {
-    console.log(filterProgress)
     this.setState({
       filterType: 'filterProgress',
       filterProgress: filterProgress
+    })
+  }
+
+  changeFilterLabel = (filterLabel) => {
+    this.setState({
+      filterType: 'filterLabel',
+      filterLabel: filterLabel
+    })
+  }
+
+  changeFilterPriority = (filterPriority) => {
+    this.setState({
+      filterType: 'filterPriority',
+      filterPriority: filterPriority
+    })
+  }
+
+  changeFilterSearch = (filterSearch) => {
+    // console.log(filterSearch)
+    this.setState({
+      filterType: 'filterSearch',
+      filterSearch: filterSearch
     })
   }
 
@@ -106,7 +130,7 @@ class App extends Component {
 
   render() {
 
-    let { tasks , isAddNewTask, taskEditing } = this.state;
+    let { tasks, isAddNewTask, taskEditing, filterProgress, filterLabel, filterPriority, filterSearch, filterType } = this.state;
 
     return (
       <div className="App">
@@ -118,12 +142,20 @@ class App extends Component {
                 generateData={this.generateData}
                 clearForAddNewTask={this.clearForAddNewTask}
                 changeFilterProgress={this.changeFilterProgress}
+                changeFilterLabel={this.changeFilterLabel}
+                changeFilterPriority={this.changeFilterPriority}
               />
               {/* DISPLAY */}
               <TaskItem 
                 tasks={ tasks }
                 editTask={this.editTask}
                 changedProgress={this.changedProgress}
+                changeFilterSearch={this.changeFilterSearch}
+                filterProgress={filterProgress}
+                filterType={filterType}
+                filterLabel={filterLabel}
+                filterPriority={filterPriority}
+                filterSearch={filterSearch}
               />
             </div>
           </div>
